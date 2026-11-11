@@ -1,11 +1,8 @@
-import React from 'react';
+import { ReactNode } from "react";
+import DashboardShell from "@/components/dashboard/shell";
 
-const AdminLayoutDashboardPage = () => {
-    return (
-        <div>
-            admin page
-        </div>
-    );
+const DashboardAdminLayout = ({ children }: { children: ReactNode }) => {
+  return <div>doctor</div>;
 };
 
-export default AdminLayoutDashboardPage;
+export default DashboardAdminLayout;

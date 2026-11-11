@@ -4,3 +4,4 @@ export interface RegisterFormValues {
   password: string;
   confirmPassword: string;
 }
+export type UserRole = "ADMIN";

@@ -43,14 +43,18 @@ export const useLogin = () => {
 
     onSuccess: async (data) => {
       toast.success(data.message || "Login successful!");
-
       await queryClient.invalidateQueries({
         queryKey: ["current-user"],
       });
     },
 
-    onError: (error: Error) => {
-      toast.error(error.message || "Login failed!");
+    onError: (error: any) => {
+      const message =
+        error?.data?.message ||
+        error?.message ||
+        "Invalid email or password. Please try again.";
+
+      toast.error(message);
     },
   });
 };
