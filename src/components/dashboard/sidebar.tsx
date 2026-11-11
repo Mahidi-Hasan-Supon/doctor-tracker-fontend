@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -12,9 +13,16 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { adminRoutes } from "@/routes/admin.routes";
 
-import { HeartPulse } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+
+import { adminRoutes } from "@/routes/admin.routes";
+import { HeartPulse, ChevronRight } from "lucide-react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -41,20 +49,72 @@ export function DashboardSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        {adminRoutes.map((group : any) => (
+        {adminRoutes.map((group) => (
           <SidebarGroup key={group.title}>
             <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
 
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map((item : any) => {
+                {group.items.map((item) => {
                   const Icon = item.icon;
 
+                  // Nested Menu
+                  if ("items" in item && item.items) {
+                    const isChildActive = item.items.some(
+                      (child) => pathname === child.url ||
+                        pathname.startsWith(`${child.url}/`),
+                    );
+
+                    return (
+                      <Collapsible
+                        key={item.title}
+                        defaultOpen={isChildActive}
+                        className="group/collapsible"
+                      >
+                        <SidebarMenuItem>
+                          <CollapsibleTrigger>
+                            <SidebarMenuButton
+                              isActive={isChildActive}
+                              tooltip={item.title}
+                              className="transition-colors data-[active=true]:bg-green-600 data-[active=true]:text-white hover:bg-green-50 hover:text-green-700"
+                            >
+                              <Icon size={18} />
+                              <span>{item.title}</span>
+                              <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                            </SidebarMenuButton>
+                          </CollapsibleTrigger>
+
+                          <CollapsibleContent>
+                            <SidebarMenu className="ml-3 mt-1 border-l pl-2">
+                              {item.items.map((child) => {
+                                const ChildIcon = child.icon;
+                                const isActive = pathname === child.url;
+
+                                return (
+                                  <SidebarMenuItem key={child.title}>
+                                    <SidebarMenuButton
+                                      render={<Link href={child.url} />}
+                                      isActive={isActive}
+                                      tooltip={child.title}
+                                      className="transition-colors data-[active=true]:bg-green-600 data-[active=true]:text-white hover:bg-green-50 hover:text-green-700"
+                                    >
+                                      <ChildIcon size={16} />
+                                      <span>{child.title}</span>
+                                    </SidebarMenuButton>
+                                  </SidebarMenuItem>
+                                );
+                              })}
+                            </SidebarMenu>
+                          </CollapsibleContent>
+                        </SidebarMenuItem>
+                      </Collapsible>
+                    );
+                  }
+
+                  // Normal Menu
                   const isActive =
-                    item.url === "/admin"
-                      ? pathname === "/admin"
-                      : pathname === item.url ||
-                        pathname.startsWith(`${item.url}/`);
+                    pathname === item.url ||
+                    pathname.startsWith(`${item.url}/`);
 
                   return (
                     <SidebarMenuItem key={item.title}>

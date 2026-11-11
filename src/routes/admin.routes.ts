@@ -1,4 +1,12 @@
-import { LayoutDashboard, Stethoscope, Users, Settings } from "lucide-react";
+
+import {
+  LayoutDashboard,
+  Stethoscope,
+  Users,
+  Settings,
+  UserPlus,
+  List,
+} from "lucide-react";
 
 export const adminRoutes = [
   {
@@ -16,12 +24,23 @@ export const adminRoutes = [
     items: [
       {
         title: "Doctors",
-        url: "/doctor",
         icon: Stethoscope,
+        items: [
+          {
+            title: "All Doctors",
+            url: "/doctor/all-doctor",
+            icon: List,
+          },
+          {
+            title: "Create Doctor",
+            url: "/doctor/create",
+            icon: UserPlus,
+          },
+        ],
       },
       {
         title: "Patients",
-        url: "/patient",
+        url: "/patients",
         icon: Users,
       },
     ],

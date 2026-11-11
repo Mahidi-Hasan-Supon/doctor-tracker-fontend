@@ -1,11 +1,11 @@
 import React from 'react';
 
-const DoctorDashboardPage = () => {
+const doctorPage = () => {
     return (
         <div>
-            doctor page
+            doctor
         </div>
     );
 };
 
-export default DoctorDashboardPage;
+export default doctorPage;
