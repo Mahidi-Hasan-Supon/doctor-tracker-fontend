@@ -1,178 +1,182 @@
 
+"use client";
+
 import Link from "next/link";
 import {
-  HeartPulse,
-  MapPin,
+  Activity,
+  ArrowUpRight,
+  Heart,
+  LayoutDashboard,
   Mail,
+  MapPin,
   Phone,
-  ArrowRight,
+  ShieldCheck,
+  Stethoscope,
+  Users,
 } from "lucide-react";
 
-
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa";
-
 const quickLinks = [
-  { name: "Home", href: "/" },
-  { name: "Doctors", href: "/doctors" },
-  { name: "About Us", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { label: "Home", href: "/" },
+  { label: "Platform Overview", href: "/#overview" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Why Choose Us", href: "/#why-choose-us" },
 ];
 
-const socialLinks = [
-  { icon: FaFacebookF, href: "#", label: "Facebook" },
-  { icon: FaInstagram, href: "#", label: "Instagram" },
-  { icon: FaLinkedinIn, href: "#", label: "LinkedIn" },
+const features = [
+  { label: "Doctor Management", icon: Stethoscope },
+  { label: "Patient Management", icon: Users },
+  { label: "Patient Assignment", icon: Activity },
+  { label: "Dashboard Analytics", icon: LayoutDashboard },
 ];
 
-export default function FooterPage() {
+export default function Footer() {
   return (
-    <footer className="bg-gray-950 text-gray-300">
-      {/* Main Footer */}
-      <div className="mx-auto max-w-7xl px-4 pb-12 pt-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+    <footer className="relative overflow-hidden border-t border-green-100 bg-white">
+      {/* Soft background decoration */}
+      <div className="pointer-events-none absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-green-50 blur-3xl" />
 
-          {/* Brand Section */}
-          <div>
-            <Link href="/" className="mb-5 inline-flex items-center gap-2">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-600 text-white">
-                <HeartPulse size={25} />
+      <div className="relative mx-auto max-w-7xl px-5 pt-16 sm:px-8 sm:pt-20">
+        <div className="grid gap-12 pb-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="inline-flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-600 text-white shadow-lg shadow-green-600/20">
+                <Stethoscope size={23} />
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-white">
-                  Doctor<span className="text-green-500">Tracker</span>
-                </h2>
-                <p className="text-[10px] tracking-wider text-gray-400">
-                  YOUR HEALTH, OUR PRIORITY
+                <span className="text-xl font-bold tracking-tight text-slate-900">
+                  Doctor<span className="text-green-600">Tracker</span>
+                </span>
+                <p className="text-[11px] font-medium tracking-wider text-slate-400">
+                  DOCTOR & PATIENT MANAGEMENT
                 </p>
               </div>
             </Link>
 
-            <p className="max-w-xs text-sm leading-7 text-gray-400">
-              Making healthcare management easier and more organized.
-              Track doctors, manage patient information, and keep everything
-              connected in one place.
+            <p className="mt-5 max-w-xs text-sm leading-7 text-slate-500">
+              A centralized platform to organize doctor profiles, patient
+              records, assignments, and management analytics.
             </p>
 
-            {/* Social Links */}
-            <div className="mt-6 flex items-center gap-3">
-              {socialLinks.map(({ icon: Icon, href, label }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-800 text-gray-400 transition-all hover:border-green-600 hover:bg-green-600 hover:text-white"
-                >
-                  <Icon size={17} />
-                </Link>
-              ))}
+            <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-green-100 bg-green-50 px-3 py-2 text-xs font-medium text-green-700">
+              <ShieldCheck size={15} />
+              Secure Admin Management
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick links */}
           <div>
-            <h3 className="mb-6 text-base font-semibold text-white">
+            <h3 className="mb-5 text-base font-bold text-slate-900">
               Quick Links
             </h3>
 
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {quickLinks.map((link) => (
-                <li key={link.name}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-green-500"
+                    className="group inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-green-700"
                   >
-                    <ArrowRight
-                      size={14}
-                      className="transition-transform group-hover:translate-x-1"
+                    <span className="h-1.5 w-1.5 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                    {link.label}
+                    <ArrowUpRight
+                      size={13}
+                      className="opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
                     />
-                    {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Features */}
           <div>
-            <h3 className="mb-6 text-base font-semibold text-white">
-              Our Services
+            <h3 className="mb-5 text-base font-bold text-slate-900">
+              Platform Features
             </h3>
 
-            <ul className="space-y-4 text-sm text-gray-400">
-              <li>Doctor Management</li>
-              <li>Patient Management</li>
-              <li>Appointment Tracking</li>
-              <li>Healthcare Dashboard</li>
+            <ul className="space-y-4">
+              {features.map((feature) => {
+                const Icon = feature.icon;
+
+                return (
+                  <li
+                    key={feature.label}
+                    className="flex items-center gap-3 text-sm text-slate-500"
+                  >
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-700">
+                      <Icon size={16} />
+                    </div>
+                    {feature.label}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="mb-6 text-base font-semibold text-white">
+            <h3 className="mb-5 text-base font-bold text-slate-900">
               Get In Touch
             </h3>
 
-            <ul className="space-y-5">
-              <li className="flex items-start gap-3">
-                <MapPin size={19} className="mt-0.5 shrink-0 text-green-500" />
-                <span className="text-sm leading-6 text-gray-400">
-                  Bangladesh
-                </span>
-              </li>
+            <p className="mb-5 text-sm leading-6 text-slate-500">
+              Have questions about the platform? Feel free to get in touch.
+            </p>
 
-              <li className="flex items-center gap-3">
-                <Mail size={19} className="shrink-0 text-green-500" />
-                <a
-                  href="mailto:contact@doctortracker.com"
-                  className="text-sm text-gray-400 transition-colors hover:text-green-500"
-                >
-                  contact@doctortracker.com
-                </a>
-              </li>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-700">
+                  <Mail size={17} />
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Email</p>
+                  <p className="mt-1 text-sm font-medium text-slate-700">
+                    care@guide.com
+                  </p>
+                </div>
+              </div>
 
-              <li className="flex items-center gap-3">
-                <Phone size={19} className="shrink-0 text-green-500" />
-                <span className="text-sm text-gray-400">
-                  Contact Support
-                </span>
-              </li>
-            </ul>
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-700">
+                  <ShieldCheck size={17} />
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Access</p>
+                  <p className="mt-1 text-sm font-medium text-slate-700">
+                    Authorized administrators only
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Link
+              href="/login"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-green-600/15 transition hover:bg-green-700"
+            >
+              Admin Login
+              <ArrowUpRight size={16} />
+            </Link>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Footer */}
-      <div className="border-t border-gray-800">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 text-center sm:px-6 md:flex-row lg:px-8">
-          <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} DoctorTracker. All rights reserved.
+        {/* Bottom footer */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-100 py-6 text-center sm:flex-row sm:text-left">
+          <p className="text-sm text-slate-500">
+            © {new Date().getFullYear()} Doctor Tracker. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-6 text-xs text-gray-500">
-            <Link
-              href="/privacy"
-              className="transition-colors hover:text-green-500"
-            >
-              Privacy Policy
-            </Link>
+          <p className="flex items-center gap-1.5 text-sm text-slate-500">
+            Built with
+            <Heart size={14} className="fill-green-600 text-green-600" />
+            for better management
+          </p>
 
-            <Link
-              href="/terms"
-              className="transition-colors hover:text-green-500"
-            >
-              Terms of Service
-            </Link>
+          <div className="flex items-center gap-2 text-xs font-medium text-green-700">
+            <span className="h-2 w-2 rounded-full bg-green-500" />
+            Doctor Tracker Platform
           </div>
-
-          <p className="text-xs text-gray-500">
-            Made with <span className="text-green-500">♥</span> for better
-            healthcare
-          </p>
         </div>
       </div>
     </footer>

@@ -80,7 +80,7 @@ export const useLogout = () => {
     onSuccess: () => {
       queryClient.clear();
       toast.success("Logged out successfully!");
-      router.replace("/login");
+      router.replace("/admin");
     },
 
     onError: (error: Error) => {

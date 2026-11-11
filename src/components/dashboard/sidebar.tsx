@@ -1,5 +1,10 @@
-
 "use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { HeartPulse, ChevronRight } from "lucide-react";
+
+import { adminRoutes } from "@/routes/admin.routes";
 
 import {
   Sidebar,
@@ -20,49 +25,52 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
-import { adminRoutes } from "@/routes/admin.routes";
-import { HeartPulse, ChevronRight } from "lucide-react";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 export function DashboardSidebar() {
   const pathname = usePathname();
 
+  const isRouteActive = (url: string) =>
+    pathname === url || pathname.startsWith(`${url}/`);
+
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <Link href="/" className="flex items-center gap-2 px-2 py-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-green-600 text-white">
-            <HeartPulse size={22} />
+    <Sidebar collapsible="icon">
+      {/* Header / Logo */}
+      <SidebarHeader className="border-b">
+        <Link href="/admin" className="flex items-center gap-3 px-2 py-3">
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-green-600 text-white shadow-sm">
+            <HeartPulse size={21} />
           </div>
 
-          <div>
+          <div className="grid flex-1 text-left leading-tight">
             <h2 className="text-lg font-bold tracking-tight">
-              Doctor<span className="text-green-600">Tracker</span>
+              Doctor
+              <span className="text-green-600">Tracker</span>
             </h2>
-            <p className="text-[10px] font-medium tracking-wider text-muted-foreground">
+            <p className="mt-0.5 text-[10px] font-semibold tracking-[0.16em] text-muted-foreground">
               ADMIN PANEL
             </p>
           </div>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent>
+      {/* Navigation */}
+      <SidebarContent className="gap-2 px-2 py-3">
         {adminRoutes.map((group) => (
-          <SidebarGroup key={group.title}>
-            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+          <SidebarGroup key={group.title} className="px-0">
+            <SidebarGroupLabel className="px-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              {group.title}
+            </SidebarGroupLabel>
 
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="gap-1">
                 {group.items.map((item) => {
-                  const Icon = item.icon;
+                  {
+                    /* Nested menu */
+                  }
+                  if ("items" in item) {
+                    const Icon = item.icon;
 
-                  // Nested Menu
-                  if ("items" in item && item.items) {
-                    const isChildActive = item.items.some(
-                      (child) => pathname === child.url ||
-                        pathname.startsWith(`${child.url}/`),
+                    const isChildActive = item.items.some((child) =>
+                      isRouteActive(child.url),
                     );
 
                     return (
@@ -72,23 +80,26 @@ export function DashboardSidebar() {
                         className="group/collapsible"
                       >
                         <SidebarMenuItem>
-                          <CollapsibleTrigger>
-                            <SidebarMenuButton
-                              isActive={isChildActive}
-                              tooltip={item.title}
-                              className="transition-colors data-[active=true]:bg-green-600 data-[active=true]:text-white hover:bg-green-50 hover:text-green-700"
-                            >
-                              <Icon size={18} />
-                              <span>{item.title}</span>
-                              <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                            </SidebarMenuButton>
-                          </CollapsibleTrigger>
+                          <CollapsibleTrigger
+                            render={
+                              <SidebarMenuButton
+                                isActive={isChildActive}
+                                tooltip={item.title}
+                                className="w-full transition-colors hover:bg-green-50 hover:text-green-700 data-[active=true]:bg-green-600 data-[active=true]:font-semibold data-[active=true]:text-white"
+                              >
+                                <Icon size={18} />
+                                <span>{item.title}</span>
+
+                                <ChevronRight className="ml-auto size-4 shrink-0 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                              </SidebarMenuButton>
+                            }
+                          />
 
                           <CollapsibleContent>
-                            <SidebarMenu className="ml-3 mt-1 border-l pl-2">
+                            <SidebarMenu className="ml-3 mt-1 gap-1 border-l border-border pl-2">
                               {item.items.map((child) => {
                                 const ChildIcon = child.icon;
-                                const isActive = pathname === child.url;
+                                const isActive = isRouteActive(child.url);
 
                                 return (
                                   <SidebarMenuItem key={child.title}>
@@ -96,7 +107,7 @@ export function DashboardSidebar() {
                                       render={<Link href={child.url} />}
                                       isActive={isActive}
                                       tooltip={child.title}
-                                      className="transition-colors data-[active=true]:bg-green-600 data-[active=true]:text-white hover:bg-green-50 hover:text-green-700"
+                                      className="transition-colors hover:bg-green-50 hover:text-green-700 data-[active=true]:bg-green-600 data-[active=true]:font-semibold data-[active=true]:text-white"
                                     >
                                       <ChildIcon size={16} />
                                       <span>{child.title}</span>
@@ -111,24 +122,29 @@ export function DashboardSidebar() {
                     );
                   }
 
-                  // Normal Menu
-                  const isActive =
-                    pathname === item.url ||
-                    pathname.startsWith(`${item.url}/`);
+                  {
+                    /* Normal menu */
+                  }
+                  if ("url" in item) {
+                    const Icon = item.icon;
+                    const isActive = isRouteActive(item.url);
 
-                  return (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton
-                        render={<Link href={item.url} />}
-                        isActive={isActive}
-                        tooltip={item.title}
-                        className="transition-colors data-[active=true]:bg-green-600 data-[active=true]:text-white hover:bg-green-50 hover:text-green-700"
-                      >
-                        <Icon size={18} />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton
+                          render={<Link href={item.url} />}
+                          isActive={isActive}
+                          tooltip={item.title}
+                          className="transition-colors hover:bg-green-50 hover:text-green-700 data-[active=true]:bg-green-600 data-[active=true]:font-semibold data-[active=true]:text-white"
+                        >
+                          <Icon size={18} />
+                          <span>{item.title}</span>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  }
+
+                  return null;
                 })}
               </SidebarMenu>
             </SidebarGroupContent>
