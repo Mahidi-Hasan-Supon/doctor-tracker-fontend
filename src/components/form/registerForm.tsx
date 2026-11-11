@@ -63,14 +63,14 @@ const RegisterForm = () => {
   });
 
   return (
-    <div className="flex w-full max-w-md flex-col gap-6 rounded-2xl border p-6 shadow">
+   <div className="w-full max-w-md rounded-2xl border border-green-100 bg-white p-6 shadow-xl shadow-green-900/5 sm:p-8">
       {/* Header */}
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold tracking-tight">
           Create Admin Account
         </h1>
 
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground mb-4">
           Register to manage your Doctor Tracker dashboard.
         </p>
       </div>
