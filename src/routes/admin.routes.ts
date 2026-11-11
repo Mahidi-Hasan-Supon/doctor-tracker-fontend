@@ -40,8 +40,19 @@ export const adminRoutes = [
       },
       {
         title: "Patients",
-        url: "/patients",
         icon: Users,
+        items: [
+          {
+            title: "All Patients",
+            url: "/patients/all-patient",
+            icon: List,
+          },
+          {
+            title: "Create Patient",
+            url: "/patients/create",
+            icon: UserPlus,
+          },
+        ],
       },
     ],
   },
