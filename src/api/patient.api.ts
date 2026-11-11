@@ -1,4 +1,3 @@
-
 import apiClient from "@/lib/apiClient";
 
 import type {
@@ -20,6 +19,15 @@ interface PatientListResponse {
   message: string;
   meta: PatientPaginationMeta;
   data: IPatient[];
+}
+
+interface DoctorPatientsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    meta: PatientPaginationMeta;
+    data: IPatient[];
+  };
 }
 
 // Create Patient
@@ -59,20 +67,18 @@ export const deletePatient = (patientId: string) =>
   });
 
 // Get Patients By Doctor
+// Get Patients By Doctor
 export const getPatientsByDoctor = (
   doctorId: string,
   params?: Omit<PatientQueryParams, "doctorId" | "startDate" | "endDate">,
 ) =>
-  apiClient<PatientListResponse>(`/patients/doctor/${doctorId}`, {
+  apiClient<DoctorPatientsResponse>(`/patients/doctor/${doctorId}`, {
     method: "GET",
     query: params,
   });
 
 // Remove Patient From Doctor
-export const removePatientFromDoctor = (
-  doctorId: string,
-  patientId: string,
-) =>
+export const removePatientFromDoctor = (doctorId: string, patientId: string) =>
   apiClient<ApiResponse<null>>(
     `/patients/doctor/${doctorId}/patient/${patientId}`,
     {

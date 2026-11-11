@@ -2,9 +2,17 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { IDoctor } from "@/types";
-import { useDeleteDoctor } from "@/hooks";
+import { useDeleteDoctor, useUpdateDoctor } from "@/hooks";
 import { toast } from "sonner";
+import { useForm } from "@tanstack/react-form";
+import { createDoctorSchema } from "@/validation";
+import { Eye, Pencil, Trash2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import {
   Table,
@@ -33,17 +41,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
-import { useUpdateDoctor } from "@/hooks";
-import { useForm } from "@tanstack/react-form";
-import { createDoctorSchema } from "@/validation";
-
-import { Pencil, Trash2 } from "lucide-react";
-
+  
 interface DoctorTableProps {
   doctors: IDoctor[];
 }
@@ -83,7 +81,7 @@ const EditDoctorSheet = ({
   );
 };
 
-// Edit Form
+// Edit Doctor Form
 const EditDoctorForm = ({
   doctor,
   onOpenChange,
@@ -250,6 +248,19 @@ const DoctorTable = ({ doctors }: DoctorTableProps) => {
 
                 <TableCell>
                   <div className="flex justify-end gap-2">
+                    {/* View Patients */}
+                    <Link href={`/doctor/${doctor._id}/patient`}>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        title="View patients"
+                        aria-label={`View patients of ${doctor.name}`}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </Link>
+
+                    {/* Edit Doctor */}
                     <Button
                       size="icon"
                       variant="outline"
@@ -262,6 +273,7 @@ const DoctorTable = ({ doctors }: DoctorTableProps) => {
                       <Pencil className="h-4 w-4" />
                     </Button>
 
+                    {/* Delete Doctor */}
                     <Button
                       size="icon"
                       variant="destructive"
