@@ -1,11 +1,11 @@
-import React from 'react';
+import HeroSection from "@/components/layout/home/heroSection";
+import Image from "next/image";
 
-const HomePage = () => {
-    return (
-        <div>
-            home
-        </div>
-    );
-};
-
-export default HomePage;
+export default function Home() {
+  return (
+    <div>
+     <HeroSection/>
+    </div>
+  );
+}
+  
